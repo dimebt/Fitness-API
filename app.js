@@ -70,10 +70,6 @@ app.get('/fitness/api/nowplaying', function(req, res) {
 
 
 
-
-// added comment 01
-
-
 // Listen on port 
 app.listen(3100);
 console.log('Running on port 3100...');

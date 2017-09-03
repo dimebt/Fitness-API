@@ -2,33 +2,30 @@ var mongoose = require('mongoose');
 
 // Genre Schema
 var gallerySchema = mongoose.Schema({	
-	gallery: {
-		date: {
+	title: {
 		type: String,
 		required: true
 	},
-	date: {
+	imgPath: {
 		type: String,
 		required: true
 	},
-	date: {
+	imgPathTumbnails: {
 		type: String,
 		required: true
 	},
-	date: {
+	dateTaken: {
 		type: String,
 		required: true
 	},
-	date: {
+	desription: {
 		type: String,
 		required: true
 	},
-	track: {
+	tags: {
 		type: String,
 		required: true
-	}
-	}
-	
+	}	
 }, 
 	{ collection: 'gallery' }
 );

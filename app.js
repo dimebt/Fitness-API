@@ -9,12 +9,13 @@ News = require('./models/news.js')
 Promotions = require('./models/promotions.js')
 Pricelist = require('./models/pricelist.js')
 Nowplaying = require('./models/nowplaying.js')
+Gallery = require('./models/gallery.js')
 
 
 // Connect to mongoose
 // mongoose.connect('mongodb://dimebt.ddns.net:61001/fitnessdb');
 // var db = mongoose.connection;
-var db = mongoose.connect('mongodb://dimebt.ddns.net:61001/fitnessdb', {
+var db = mongoose.connect('mongodb://localhost:27017/fitnessdb', {
   useMongoClient: true,
   /* other options */
 });
@@ -65,6 +66,16 @@ app.get('/fitness/api/nowplaying', function(req, res) {
 			throw err;
 		}
 		res.json(nowplaying);
+	});
+});
+
+// get Gallery
+app.get('/fitness/api/gallery', function(req, res) {
+	Gallery.getGallery(function(err, gallery) {
+		if(err){
+			throw err;
+		}
+		res.json(gallery);
 	});
 });
 

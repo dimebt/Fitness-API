@@ -19,5 +19,5 @@ var Nowplaying = module.exports = mongoose.model('Nowplaying', nowplayingSchema)
 
 // Get Books
 module.exports.getNowplaying = function(callback, limit) {
-	Nowplaying.find(callback).limit(limit);
+	Nowplaying.find(callback).sort( { date: -1 } ).limit(1);
 };

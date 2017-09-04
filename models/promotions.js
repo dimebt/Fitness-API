@@ -37,5 +37,5 @@ var Promotions = module.exports = mongoose.model('Promotions', promotionsSchema)
 
 // Get Books
 module.exports.getPromotions = function(callback, limit) {
-	Promotions.find(callback).limit(limit);
+	Promotions.find(callback).sort( { date: -1 } ).limit(1);
 };

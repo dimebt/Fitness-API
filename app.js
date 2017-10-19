@@ -2,6 +2,7 @@ var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
+var multer = require('multer')
 
 app.use(bodyParser.json());
 
@@ -20,6 +21,47 @@ var db = mongoose.connect('mongodb://localhost:27017/fitnessdb', {
   /* other options */
 });
 
+
+
+
+//////////////////////////////////////////////////////////////////////
+//  Upload multer multipart data
+//////////////////////////////////////////////////////////////////////
+
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'uploads/')
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.fieldname + '-' + Date.now() + '.jpg')
+  }
+})
+
+var upload = multer({ storage: storage }).single('profileImage')
+
+app.post('/fitness/api/profile', function (req, res) {
+  upload(req, res, function (err) {
+    if (err) {
+      // An error occurred when uploading
+      return
+    }
+    res.json({
+    	success: true,
+    	message: 'Image uploaded!'
+    })
+  })
+})
+
+//////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+
+
+//  PUBLIC API
 
 // Setup the routes
 app.get('/', function(req, res) {
@@ -78,6 +120,13 @@ app.get('/fitness/api/gallery', function(req, res) {
 		res.json(gallery);
 	});
 });
+
+
+
+
+
+
+
 
 
 

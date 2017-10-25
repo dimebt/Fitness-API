@@ -4,6 +4,9 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var multer = require('multer')
 
+// use body parser so we can get info from POST and/or URL parameters
+// The Body Parser to parse incoming data from request
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 News = require('./models/news.js')
@@ -11,7 +14,8 @@ Promotions = require('./models/promotions.js')
 Pricelist = require('./models/pricelist.js')
 Nowplaying = require('./models/nowplaying.js')
 Gallery = require('./models/gallery.js')
-
+var Clen = require('./models/clen.js')
+var appsecurity = 'apipassword'
 
 // Connect to mongoose
 // mongoose.connect('mongodb://dimebt.ddns.net:61001/fitnessdb');
@@ -123,7 +127,29 @@ app.get('/fitness/api/gallery', function(req, res) {
 
 
 
-
+// get Clen
+app.post('/fitness/api/alreadyamember', function(req, res) {	
+	Clen.findOne({
+		clenid: req.body.clenid
+	}, function(err, clen) {
+		if(err) throw err;
+		if(!clen) {
+			res.json({ success: false, message: 'User not found.' });
+		} else if (clen) {
+			if(clen.tel != req.body.tel) {
+				res.json({ success: false, message: 'Wrong phone.' });
+			} else {
+				if(appsecurity != req.body.appsecurity) {
+					res.json({ success: false, message: 'You dont have authorization.' });
+				}
+				else {
+					res.json(clen)
+				}				
+			}
+		}
+		
+	})
+});
 
 
 

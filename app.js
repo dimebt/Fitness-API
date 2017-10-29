@@ -34,7 +34,7 @@ var db = mongoose.connect('mongodb://localhost:27017/fitnessdb', {
 
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, 'uploads/')
+    cb(null, '/home/o2universal/public_html/api/profilephotos')
   },
   filename: function (req, file, cb) {
     cb(null, Date.now() + '.jpg')

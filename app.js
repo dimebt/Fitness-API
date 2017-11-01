@@ -15,6 +15,8 @@ Pricelist = require('./models/pricelist.js')
 Nowplaying = require('./models/nowplaying.js')
 Gallery = require('./models/gallery.js')
 var Clen = require('./models/clen.js')
+var Member = require('./models/member.js')
+
 var appsecurity = 'apipassword'
 
 // Connect to mongoose
@@ -47,7 +49,12 @@ app.post('/fitness/api/profile', function (req, res) {
   upload(req, res, function (err) {
     if (err) {
       // An error occurred when uploading
-      return
+        res.json({
+    	    success: false,
+    	    message: 'Image not uploaded!',
+    	    image: req.file.filename
+        })
+        return
     }
     res.json({
     	success: true,
@@ -128,7 +135,7 @@ app.get('/fitness/api/gallery', function(req, res) {
 
 
 
-// get Clen
+// get Clen from tbl_clenovi
 app.post('/fitness/api/alreadyamember', function(req, res) {	
 	Clen.findOne({
 		clenid: req.body.clenid
@@ -154,6 +161,34 @@ app.post('/fitness/api/alreadyamember', function(req, res) {
 
 
 
+app.post('/fitness/api/insertmember', function(req, res) {
+	var member = req.body;
+	Member.findOne({
+		clenid: req.body.clenid
+	}, function(err, clen) {
+		if(err) {
+			//throw err;
+			res.json({ success: false, message: 'Request not valid. Provide all body fields!' });
+		}
+		if(clen) {
+			res.json({ success: false, message: 'User already member.' });			
+		} else if (!clen) {
+			if(appsecurity != req.body.appsecurity)	{
+				res.json({ success: false, message: 'You dont have authorization.' });
+				} else {
+					Member.addMember(member, function(err, member) {
+						if(err) {
+							//throw err;
+							res.json({ success: false, message: 'Request not valid. Provide all body fields!' });
+						} else {
+							res.json({ success: true, message: 'Member inserted' });
+						}
+						//res.json(member)						
+					});										
+				}								
+			}
+		});		
+	});
 
 
 

@@ -81,8 +81,6 @@ app.get('/', function(req, res) {
 });
 
 
-
-
 // get News
 app.get('/fitness/api/news', function(req, res) {
 	News.getNews(function(err, news) {
@@ -160,7 +158,7 @@ app.post('/fitness/api/alreadyamember', function(req, res) {
 });
 
 
-
+// Insert member
 app.post('/fitness/api/insertmember', function(req, res) {
 	var member = req.body;
 	Member.findOne({
@@ -189,6 +187,26 @@ app.post('/fitness/api/insertmember', function(req, res) {
 			}
 		});		
 	});
+
+
+// Update news view
+app.get('/fitness/api/updatenewsviews/:title', function(req, res) {
+	News.findOneAndUpdate(
+	{
+		title: req.params.title 
+	}, 
+	{ 
+		$inc: { views: 1 }
+	},
+    function(err, response) {
+      if (err) {
+        throw err
+      } else {
+        res.json(response);
+      }
+    });
+});
+
 
 
 

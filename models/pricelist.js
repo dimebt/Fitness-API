@@ -15,7 +15,7 @@ var pricelistSchema = mongoose.Schema({
 		required: true
 	}
 }, 
-	{ collection: 'pricelist' }
+	{ collection: 'view_clenarina_cenovnik_json' }
 
 );
 

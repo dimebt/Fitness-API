@@ -190,7 +190,7 @@ app.post('/fitness/api/insertmember', function(req, res) {
 
 
 // Update news view counter
-app.get('/fitness/api/updatenewsviews/:id', function(req, res) {
+app.get('/fitness/api/updatenewsviews/:id/', function(req, res) {
 	News.findOneAndUpdate(
 	{
 		_id: req.params.id 

@@ -2,6 +2,10 @@ var mongoose = require('mongoose');
 
 
 var pricelistSchema = mongoose.Schema({
+	vidclenarina: {
+		type: Number,
+		required: true
+	},
 	clenarina: {
 		type: String,
 		required: true

@@ -226,8 +226,9 @@ app.post('/fitness/api/login', function(req, res) {
     clenid: req.body.clenid
   }, function(err, user) {
 
-    if (err) throw err;
-
+    if (err) {
+    	res.json({ success: false, message: 'Authentication failed. User not found.' });
+    }
     if (!user) {
       res.json({ success: false, message: 'Authentication failed. User not found.' });
     } else if (user) {
@@ -247,7 +248,8 @@ app.post('/fitness/api/login', function(req, res) {
 
 	        // return the information including token as JSON
 	        res.json({
-	          success: true,          
+	          success: true, 
+	          message: 'Authentication Successful.'
 	          token: token,
 	          clenid: user.clenid,
 	          password: user.password,

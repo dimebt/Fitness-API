@@ -401,7 +401,7 @@ app.post('/fitness/api/updatemember', function(req, res) {
 	      if (err) {
 	        throw err
 	      } else {
-	        res.json(response);
+	        res.json({ success: true, message: 'Member profile updated.' });
 	      }
 	    });
 	}

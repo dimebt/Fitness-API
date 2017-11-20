@@ -213,12 +213,12 @@ var member = req.body;
 						message: 'User registered.',
 						ime: req.body.ime,
 						prezime: req.body.prezime,
-						lozinka: req.body.lozinka,
-						adresa: req.body.adresa,
-						mesto: req.body.mesto,
-						tel: req.body.tel,
+						lozinka: req.body.password,
+						adresa: req.body.address,
+						mesto: req.body.city,
+						tel: req.body.phone,
 						email: req.body.email,
-						slika: req.body.slika
+						slika: req.body.photo
 					});
 			}
 		});

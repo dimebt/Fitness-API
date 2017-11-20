@@ -19,6 +19,7 @@ Nowplaying = require('./models/nowplaying.js')
 Gallery = require('./models/gallery.js')
 var Clen = require('./models/clen.js')
 var Member = require('./models/member.js')
+var Register = require('./models/register.js')
 var jwt    = require('jsonwebtoken'); // used to create, sign, and verify tokens
 var config = require('./config'); // get our config file
 
@@ -193,6 +194,37 @@ app.post('/fitness/api/insertmember', function(req, res) {
 			}
 		});		
 	});
+
+
+// Register new user 
+// dont forget to add all body fields
+app.post('/fitness/api/register', function(req, res) {
+var member = req.body;
+	if (appsecurity != req.body.appsecurity) {
+		res.json({ success: false, message: 'Authentication failed. Wrong api security key.' });
+	} else {	
+		Register.addRegistration(member, function(err, registration) {
+			if (err) {
+				res.json({ success: false, message: 'Request not valid. Provide all body fields!' });
+			} else {
+				res.json(
+					{
+						success: true,
+						message: 'User registered.',
+						ime: req.body.ime,
+						prezime: req.body.prezime,
+						lozinka: req.body.lozinka,
+						adresa: req.body.adresa,
+						mesto: req.body.mesto,
+						tel: req.body.tel,
+						email: req.body.email,
+						slika: req.body.slika
+					});
+			}
+		});
+	}  
+});
+
 
 
 // Update news view counter
@@ -406,6 +438,9 @@ app.post('/fitness/api/updatemember', function(req, res) {
 	    });
 	}
 });
+
+
+
 
 
 

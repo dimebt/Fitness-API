@@ -363,7 +363,7 @@ app.post('/fitness/api/attendance', function(req, res) {
 				res.json({ success: false, message: 'Error' });
 			}
 			else if(attendance) {
-				res.json(attendance);			
+				res.json(attendance);
 			}
 		});
 	}	
@@ -385,6 +385,17 @@ app.post('/fitness/api/payments', function(req, res) {
 				}
 			}]
 		).exec(function(err, payments) {
+		    res.json(payments)
+		});
+	}
+});
+
+// route for last payment
+app.post('/fitness/api/lastpayment', function(req, res) {
+	if (appsecurity != req.body.appsecurity) {
+		res.json({ success: false, message: 'Authentication failed. Wrong api security key.' });
+	} else {		
+		Payments.find({ "clenid": Number(req.body.clenid) }).sort({ "datum_naplata": -1 }).limit(1).exec(function(err, payments) {
 		    res.json(payments)
 		});
 	}

@@ -275,7 +275,7 @@ app.post('/fitness/api/login', function(req, res) {
 	        // if user is found and password is right
 	        // create a token
 	        var token = jwt.sign({user}, app.get('secretApiPassword'), {          
-	          expiresIn: 60*60*24 // expires in 24 hours
+	          expiresIn: 60*60*48 // expires in 48 hours
 	        });      
 
 	        // return the information including token as JSON

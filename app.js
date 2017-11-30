@@ -3,6 +3,7 @@ var app = express();
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var multer = require('multer')
+var nodemailer = require('nodemailer');
 
 // use body parser so we can get info from POST and/or URL parameters
 // The Body Parser to parse incoming data from request
@@ -24,6 +25,7 @@ var jwt    = require('jsonwebtoken'); // used to create, sign, and verify tokens
 var config = require('./config'); // get our config file
 
 var appsecurity = 'apipassword'
+var emailPassword = 'emailpassword'
 app.set('secretApiPassword', config.secret); // secret variable
 
 // Connect to mongoose
@@ -246,7 +248,48 @@ app.get('/fitness/api/updatenewsviews/:id/', function(req, res) {
 });
 
 
+// password recovery
+app.post('/fitness/api/passwordforget', function(req, res) {
+	if (appsecurity != req.body.appsecurity) {
+		res.json({ success: false, message: 'Authentication failed. Wrong api security key.' });
+	} else {
+		Member.findOne({ 
+			email: req.body.email
+		}, function(err, clen) {
+			if(err) {
+				res.json({ success: false, message: 'Request not valid. Provide all body fields!' });
+			}
+			if(!clen) {				
+				res.json({ success: false, message: 'Email not found!' });		
+			} 
+			if(clen) {
+				var transporter = nodemailer.createTransport({
+				  service: 'gmail',
+				  auth: {
+				    user: 'mygymstip@gmail.com',
+				    pass: emailPassword
+				  }
+				});
 
+				var mailOptions = {
+				  from: 'mygymstip@gmail.com',
+				  to: clen.email,
+				  subject: 'My GYM - Stip Заборавена лозинка?',
+				  text: 'Вашата лозинка е: ' + clen.password
+				};
+
+				transporter.sendMail(mailOptions, function(error, info){
+				  if (error) {
+				    console.log(error);
+				  } else {
+				    console.log('Email sent: ' + info.response);
+				  }
+				});	
+				res.json({ success: true, message: 'Email sent to: ' + clen.email })		
+			} 
+		});
+	}  
+});
 
 
 // Authentication with jsonwebtoken

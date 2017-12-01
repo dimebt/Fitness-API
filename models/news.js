@@ -31,5 +31,5 @@ var News = module.exports = mongoose.model('News', newsSchema);
 
 // Get Books
 module.exports.getNews = function(callback, limit) {
-	News.find(callback).limit(200);
+	News.find(callback).sort({date: -1}).limit(200);
 };
